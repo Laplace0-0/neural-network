@@ -1,0 +1,38 @@
+# CMake build artifacts
+/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled object files and executables
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+
+# Test logs
+Testing/
+CTestTestfile.cmake
+DartConfiguration.tcl
+
+# IDEs and OS files
+*.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# GoogleTest via FetchContent (cached here)
+/_deps/
+
+# Logs or temp data
+*.log
+*.tmp
+
+# User files
+*.bak
+*.old
