@@ -1,19 +1,33 @@
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
+#pragma once
 
-#include <iostream>
 #include <vector>
 
 class Matrix {
-    public:
-        int rows, cols, total;
-        std::vector<float> data;
+public:
+    int rows, cols, total;
+    std::vector<float> data;
 
-        // Matrix Initializer Matrix[rows][cols] = 0
-        Matrix(int rows, int cols, bool random = false);
-        
-        // Matrix Addition
-        Matrix operator+(const Matrix& other) const;
+    // Constructor: Initializes matrix with zeros
+    Matrix(int rows, int cols);
+
+    // Matrix Addition
+    Matrix operator+(const Matrix& other) const;
+
+    // Matrix Subtraction
+    Matrix operator-(const Matrix& other) const;
+
+    // Matrix Scalar Multiplication
+    Matrix operator*(const Matrix& other) const;   // Matrix-Matrix multiplication
+    
+    Matrix operator*(float scalar) const;          // Scalar multiplication
+
+
+    // Matrix Transpose
+    void tp();
+
+    // Print Matrix
+    void print() const;
 };
 
-#endif
+
+

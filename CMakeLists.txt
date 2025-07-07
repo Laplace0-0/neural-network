@@ -8,9 +8,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2")
 # Include and source directories
 include_directories(include)
 file(GLOB SRC_FILES "src/*.cpp")
+file(GLOB INITIALIZER_FILES "src/Initializers/*.cpp")
+file(GLOB LAYER_FILES "src/layers/*.cpp")
+file(GLOB MATH_FILES "src/math/*.cpp")
+
 
 # Main executable
-add_executable(main src/main.cpp ${SRC_FILES})
+add_executable(main src/main.cpp ${SRC_FILES} ${INITIALIZER_FILES} ${LAYER_FILES} ${MATH_FILES})
 
 # GoogleTest via FetchContent
 include(FetchContent)
@@ -29,8 +33,8 @@ list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
 file(GLOB TEST_FILES "tests/*.cpp")
 
 # Test binary
-add_executable(matrix_tests ${TEST_FILES} ${SRC_FILES})
-target_link_libraries(matrix_tests gtest gtest_main)
+add_executable(matrix_tests ${TEST_FILES} ${SRC_FILES} ${INITIALIZER_FILES} ${LAYER_FILES} ${MATH_FILES})
+target_link_libraries(matrix_tests PRIVATE gtest gtest_main)
 
 # Let GoogleTest handle individual test cases
 include(GoogleTest)

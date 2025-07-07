@@ -1,16 +1,7 @@
 #include <gtest/gtest.h>
-#include "../include/matrix.hpp"
 #include <cmath>
 #include <random>
-
-// Helper function to compare flattened matrices
-bool matricesAlmostEqual(const Matrix& A, const Matrix& B, float epsilon = 1e-6f) {
-    if (A.rows != B.rows || A.cols != B.cols) return false;
-    for (size_t i = 0; i < A.data.size(); ++i)
-        if (std::fabs(A.data[i] - B.data[i]) > epsilon)
-            return false;
-    return true;
-}
+#include "./helper/matrix_util.hpp"
 
 TEST(MatrixAdditionTest, AddsCorrectlyWithComplexData) {
     Matrix A(4, 4);
