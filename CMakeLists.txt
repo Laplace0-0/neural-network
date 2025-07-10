@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(MatrixNN CXX)
+project(NEURAL CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,12 +9,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2")
 include_directories(include)
 file(GLOB SRC_FILES "src/*.cpp")
 file(GLOB INITIALIZER_FILES "src/Initializers/*.cpp")
+file(GLOB ACTIVATION_FILES "src/layers/activations/*.cpp")
+file(GLOB Dense_FILES "src/layers/dense/*.cpp")
 file(GLOB LAYER_FILES "src/layers/*.cpp")
 file(GLOB MATH_FILES "src/math/*.cpp")
 
 
 # Main executable
-add_executable(main src/main.cpp ${SRC_FILES} ${INITIALIZER_FILES} ${LAYER_FILES} ${MATH_FILES})
+add_executable(main src/main.cpp ${SRC_FILES} ${INITIALIZER_FILES} ${ACTIVATION_FILES} ${Dense_FILES} ${LAYER_FILES} ${MATH_FILES})
 
 # GoogleTest via FetchContent
 include(FetchContent)
@@ -33,7 +35,7 @@ list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
 file(GLOB TEST_FILES "tests/*.cpp")
 
 # Test binary
-add_executable(matrix_tests ${TEST_FILES} ${SRC_FILES} ${INITIALIZER_FILES} ${LAYER_FILES} ${MATH_FILES})
+add_executable(matrix_tests ${TEST_FILES} ${SRC_FILES} ${INITIALIZER_FILES} ${ACTIVATION_FILES} ${Dense_FILES} ${LAYER_FILES} ${MATH_FILES})
 target_link_libraries(matrix_tests PRIVATE gtest gtest_main)
 
 # Let GoogleTest handle individual test cases
