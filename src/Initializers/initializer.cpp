@@ -1,10 +1,9 @@
 #include "logger.hpp"
 #include <neural/neural.hpp>
 
-Matrix NeuralNetwork::add_weight(std::string name, int shape,
+Matrix NeuralNetwork::add_weight(std::string name, int neurons, int shape,
                                  weightInitializer initializer) {
-  printf("Adding weight: %s\n", name.c_str());
-  Matrix m(shape, 1);
+  Matrix m(neurons, shape);
   switch (initializer) {
   case weightInitializer::ZERO:
     break;

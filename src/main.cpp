@@ -25,7 +25,7 @@ int main() {
                  .use_bias = false,
                  .name = "Dense1"});
 
-  dense->bias.print();
+  dense->weight.print();
 
   return 0;
 }

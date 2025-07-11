@@ -28,14 +28,16 @@ Dense::Dense(const DenseConfig &config)
   if (neurons <= 0)
     log_error("Number of neurons must be greater than 0");
 
-  weight = nn.add_weight("_weight",         // name
+  weight = nn.add_weight(name = "_weight",  // name
+                         neurons,           // shape
                          input_shape,       // shape
                          weight_initializer // initializer
   );
 
   if (use_bias) {
-    bias = nn.add_weight("_bias",         // name
-                         neurons,         // shape
+    bias = nn.add_weight("_bias", // name
+                         neurons,
+                         1,               // shape
                          bias_initializer // initializer
     );
   }
