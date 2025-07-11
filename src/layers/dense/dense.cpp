@@ -1,5 +1,5 @@
 #include "logger.hpp"
-#include "neural.hpp"
+#include <neural/neural.hpp>
 /*
     Dense Layer (default initializer is zero for weight and bias)
     Dense(

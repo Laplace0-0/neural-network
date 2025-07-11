@@ -3,7 +3,7 @@
 #include <random>
 #include <vector>
 
-#include "neural.hpp"
+#include <neural/neural.hpp>
 
 void Initializer::xavier_normal(Matrix &m) {
   std::default_random_engine generator(std::random_device{}());

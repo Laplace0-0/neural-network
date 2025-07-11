@@ -1,5 +1,5 @@
 #include "logger.hpp"
-#include "neural.hpp"
+#include <neural/neural.hpp>
 
 Matrix NeuralNetwork::add_weight(std::string name, int shape,
                                  weightInitializer initializer) {

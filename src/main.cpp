@@ -1,5 +1,5 @@
-#include "neural.hpp"
 #include <iostream>
+#include <neural/neural.hpp>
 #include <vector>
 
 int main() {
@@ -26,7 +26,6 @@ int main() {
                  .name = "Dense1"});
 
   dense->bias.print();
-  dense->weight.print();
 
   return 0;
 }

@@ -5,40 +5,52 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2")
 
-# Include and source directories
-include_directories(include)
-file(GLOB SRC_FILES "src/*.cpp")
-file(GLOB INITIALIZER_FILES "src/Initializers/*.cpp")
-file(GLOB ACTIVATION_FILES "src/layers/activations/*.cpp")
-file(GLOB Dense_FILES "src/layers/dense/*.cpp")
-file(GLOB LAYER_FILES "src/layers/*.cpp")
-file(GLOB MATH_FILES "src/math/*.cpp")
+# --------------------------------------------------
+# Include directories for the library
+# --------------------------------------------------
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# --------------------------------------------------
+# Library source files
+# --------------------------------------------------
+file(GLOB_RECURSE LIB_SOURCES
+    "src/*.cpp"
+)
 
-# Main executable
-add_executable(main src/main.cpp ${SRC_FILES} ${INITIALIZER_FILES} ${ACTIVATION_FILES} ${Dense_FILES} ${LAYER_FILES} ${MATH_FILES})
+# --------------------------------------------------
+# Create Static Library
+# --------------------------------------------------
+add_library(neural STATIC ${LIB_SOURCES})
 
-# GoogleTest via FetchContent
+# Add public include path so other projects can use <neural/...>
+target_include_directories(neural
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+
+# --------------------------------------------------
+# Main executable (for demos or testing)
+# --------------------------------------------------
+add_executable(main src/main.cpp)
+target_link_libraries(main PRIVATE neural)
+
+# --------------------------------------------------
+# Testing setup using GoogleTest
+# --------------------------------------------------
 include(FetchContent)
 FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/heads/main.zip
-  DOWNLOAD_EXTRACT_TIMESTAMP true
+    googletest
+    URL https://github.com/google/googletest/archive/refs/heads/main.zip
 )
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-# Exclude main.cpp from test build
-list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
-
 file(GLOB TEST_FILES "tests/*.cpp")
 
-# Test binary
-add_executable(matrix_tests ${TEST_FILES} ${SRC_FILES} ${INITIALIZER_FILES} ${ACTIVATION_FILES} ${Dense_FILES} ${LAYER_FILES} ${MATH_FILES})
-target_link_libraries(matrix_tests PRIVATE gtest gtest_main)
+add_executable(matrix_tests ${TEST_FILES})
+target_link_libraries(matrix_tests PRIVATE neural gtest gtest_main)
 
-# Let GoogleTest handle individual test cases
 include(GoogleTest)
 gtest_discover_tests(matrix_tests
     DISCOVERY_TIMEOUT 10
@@ -46,3 +58,11 @@ gtest_discover_tests(matrix_tests
     PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
 
+# --------------------------------------------------
+# (Optional) Install support for reusability
+# --------------------------------------------------
+install(TARGETS neural EXPORT NeuralTargets
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
+)
+install(DIRECTORY include/neural DESTINATION include)
